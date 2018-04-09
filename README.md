@@ -210,14 +210,3 @@ To provide multiple admins:
   `modeladmin_register`
 
 Original ticket: https://github.com/ixc/agsa/issues/190
-
-
-
-TODOs:
-
-* Rationale
-* Diagram
-* Risks and drawbacks
-* Example models
-* Bulk import of data
-* Validation with Cerberus
