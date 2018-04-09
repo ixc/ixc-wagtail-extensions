@@ -14,17 +14,19 @@ class _SearchInJSONFieldsIndexViewMixin(IndexView):
     For example, given 'data' is a `JSONField`:
 
         class MyIndexView(_SearchInJSONFieldsIndexViewMixin, IndexView):
+            pass
 
+        class MyAdmin(ModelAdmin):
+            index_view_class = MyIndexView
             json_search_fields = (
                 'data__title',
                 'data__name__full',
             )
+            search_fields = ('pk',)  # Must not be empty
 
     NOTE: You **must** have a non-empty `search_fields` definition in addition
     to `json_search_fields` for the search fields to be exposed properly in the
-    admin, so set this to at least some minimal value like
-
-            `search_fields = ('pk',)`
+    admin, so set this to at least some minimal value.
     """
 
     def get_search_results(self, request, queryset, search_term):

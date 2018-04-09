@@ -53,12 +53,14 @@ Wagtail's `ModelAdmin`.
 For example, given 'data' is a `JSONField`:
 
     class MyIndexView(_SearchInJSONFieldsIndexViewMixin, IndexView):
+        pass
 
+    class MyAdmin(ModelAdmin):
+        index_view_class = MyIndexView
         json_search_fields = (
             'data__title',
             'data__name__full',
         )
-
         search_fields = ('pk',)  # Must not be empty
 
 NOTE: You **must** have a non-empty `search_fields` definition in addition
