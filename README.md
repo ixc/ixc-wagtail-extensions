@@ -1,19 +1,17 @@
-=========================================
 Extensions to help us build Wagtail sites
 =========================================
 
 
 Using JSONFields in Admin
-=========================
+-------------------------
 
-Pretty rendering of JSONField
------------------------------
+### Pretty rendering of JSONField
 
 Render JSON data from a ``JSONField`` model fields as a nice interactive widget
 in the Wagtail admin using ``wagtail_extensions.widgets.JSONFieldWidget``.
 Without this, ``JSONField`` fields are displayed as ugly plain editable text.
 
-For Wagtail pages, specify this widget directly in the panels definition::
+For Wagtail pages, specify this widget directly in the panels definition:
 
     content_panels = Page.content_panels + [
         FieldPanel("json", widget=JSONFieldWidget)
@@ -29,13 +27,12 @@ The UI widget is from http://kevinmickey.github.io/django-prettyjson/
 
 Original ticket: https://github.com/ixc/agsa/issues/187
 
-Filter by nested data
----------------------
+### Filter by nested data
 
 Make data fields nested in ``JSONField`` available for filtering in the admin
 by distinct values using the
 ``wagtail_extensions.admin.jsonfield_simplelistfilter_builder`` function in
-the admin's ``list_filter`` attribute::
+the admin's ``list_filter`` attribute:
 
     list_filter = (
         jsonfield_simplelistfilter_builder(
@@ -47,16 +44,17 @@ the admin's ``list_filter`` attribute::
 
 
 TODOs:
+
 * Show nested data in listing columns
 * Order by nested data
 * Search by nested data
+* Expose nested JSONField data on admin forms
 
 
-Document-centric models for externally synced data
-==================================================
+Other Admin extensions
+----------------------
 
-Multiple admin views of a single model
---------------------------------------
+### Multiple admin views of a single model
 
 To avoid the very tight coupling we normally have in Wagtail & Django between
 a model and its management in the admin, we have helper classes you can use
@@ -78,7 +76,7 @@ To provide multiple admins:
   standard model
 * optionally override the default URL-building attributes on your URL helper
   classes to customise the URL that will be provided in the admin, for example
-  an admin view focussed on Artwork documents might have::
+  an admin view focussed on Artwork documents might have:
       url_prefix = 'artwork'
 * define a separate Wagtail ``ModelAdmin`` class for each admin view you want.
   For each of these:
@@ -100,6 +98,5 @@ TODOs:
 * Diagram
 * Risks and drawbacks
 * Example models
-* Expose nested JSONField data on admin forms
 * Bulk import of data
 * Validation with Cerberus
