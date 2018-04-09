@@ -1,6 +1,6 @@
 import setuptools
 
-with open('README.rst') as f:
+with open('README.md') as f:
     long_description = f.read()
 
 setuptools.setup(
@@ -11,6 +11,7 @@ setuptools.setup(
     url='https://github.com/ixc/wagtail-extensions',
     description='Extensions to help us build Wagtail sites',
     long_description=long_description,
+    long_description_content_type="text/markdown",
     license='MIT',
     packages=setuptools.find_packages(),
     scripts=[],
