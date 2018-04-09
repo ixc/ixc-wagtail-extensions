@@ -19,7 +19,6 @@ setuptools.setup(
     install_requires=[
         'Django',
         'Wagtail',
-        'Cerberus',  # Validation of dict/JSON data
         'django-prettyjson',  # Pretty widget UI for `JSONField`s
     ],
     extras_require={},
