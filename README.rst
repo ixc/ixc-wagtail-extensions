@@ -3,8 +3,8 @@ Extensions to help us build Wagtail sites
 =========================================
 
 
-Using JSONFields
-================
+Using JSONFields in Admin
+=========================
 
 Pretty rendering of JSONField
 -----------------------------
@@ -29,13 +29,27 @@ The UI widget is from http://kevinmickey.github.io/django-prettyjson/
 
 Original ticket: https://github.com/ixc/agsa/issues/187
 
+Filter by nested data
+---------------------
+
+Make data fields nested in ``JSONField`` available for filtering in the admin
+by distinct values using the
+``wagtail_extensions.admin.jsonfield_simplelistfilter_builder`` function in
+the admin's ``list_filter`` attribute::
+
+    list_filter = (
+        jsonfield_simplelistfilter_builder(
+            'data__background__nationality',  # Path to data in JSONField
+            'nationality',  # GET parameter name to use
+            title='nationality'),  # Optional human-friendly title for filter
+    )
+
 
 
 TODOs:
 * Show nested data in listing columns
 * Order by nested data
 * Search by nested data
-* Filter by nested data
 
 
 Document-centric models for externally synced data
