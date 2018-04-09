@@ -70,12 +70,48 @@ admin, so set this to at least some minimal value.
 Original ticket: https://github.com/ixc/agsa/issues/188
 
 
+### Display and order by nested data
+
+Django does not (yet) support using paths to data nested in `JSONField`s for
+display in admin listing columns, or for ordering, but you can display this
+data indirectly using methods on Wagtail's `ModelAdmin` as in standard Django.
+
+For example, given 'data' is a `JSONField` with 'name' > 'full' content:
+
+    class MyAdmin(ModelAdmin):
+        list_display = ('name_full',)
+
+        def name_full(self, obj):
+            return obj.data.get('name', {}).get('full')
+
+In Wagtail you can also enable these methods for ordering by setting the
+`admin_order_field` on the attribute to a field path. Paths to nested data are
+not supported by the normal paths, but you can add this support by setting a
+custom `IndexView` class for your admin based on
+`_OrderByJSONFieldsIndexViewMixin`.
+
+Here is an extensions of the example above to permit ordering by nested fields.
+Note the custom index view class, and setting an attribute on the admin method
+to add ordering:
+
+    class MyIndexView(_OrderByJSONFieldsIndexViewMixin, IndexView):
+        pass
+
+    class MyAdmin(ModelAdmin):
+        index_view_class = MyIndexView
+        list_display = ('name_full',)
+
+        def name_full(self, obj):
+            return obj.data.get('name', {}).get('full')
+        name_full.admin_order_field = 'data__name__full'
+
+NOTE: There is not yet support for coercing `JSONField` content to different
+data types to give the expected ordering, so results will currently be entirely
+up to the DB's chosen ordering approach.
 
 
 TODOs:
 
-* Show nested data in listing columns
-* Order by nested data
 * Expose nested JSONField data on admin forms
 
 
