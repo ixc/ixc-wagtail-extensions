@@ -29,7 +29,7 @@ Original ticket: https://github.com/ixc/agsa/issues/187
 
 ### Filter by nested data
 
-Make data fields nested in `JSONField` available for filtering in the admin
+Make data fields nested in `JSONField`s available for filtering in the admin
 by distinct values using the
 `wagtail_extensions.admin.jsonfield_simplelistfilter_builder` function in
 the admin's `list_filter` attribute:
@@ -41,12 +41,39 @@ the admin's `list_filter` attribute:
             title='nationality'),  # Optional human-friendly title for filter
     )
 
+### Search by nested data
+
+Make data fields nested in `JSONField`s available for searching in the admin,
+in addition to standard Django model fields, by setting a custom `IndexView`
+class for your admin based on
+`wagtail_extensions.admin_views._SearchInJSONFieldsIndexViewMixin` and
+specifying search paths in a `json_search_fields` attribute on
+Wagtail's `ModelAdmin`.
+
+For example, given 'data' is a `JSONField`:
+
+    class MyIndexView(_SearchInJSONFieldsIndexViewMixin, IndexView):
+
+        json_search_fields = (
+            'data__title',
+            'data__name__full',
+        )
+
+        search_fields = ('pk',)  # Must not be empty
+
+NOTE: You **must** have a non-empty `search_fields` definition in addition
+to `json_search_fields` for the search fields to be exposed properly in the
+admin, so set this to at least some minimal value.
+
+Original ticket: https://github.com/ixc/agsa/issues/188
+
+
 
 
 TODOs:
 
 * Show nested data in listing columns
-* Search by nested data
+* Order by nested data
 * Expose nested JSONField data on admin forms
 
 
