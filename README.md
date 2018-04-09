@@ -7,9 +7,9 @@ Using JSONFields in Admin
 
 ### Pretty rendering of JSONField
 
-Render JSON data from a ``JSONField`` model fields as a nice interactive widget
-in the Wagtail admin using ``wagtail_extensions.widgets.JSONFieldWidget``.
-Without this, ``JSONField`` fields are displayed as ugly plain editable text.
+Render JSON data from a `JSONField` model fields as a nice interactive widget
+in the Wagtail admin using `wagtail_extensions.widgets.JSONFieldWidget`.
+Without this, `JSONField` fields are displayed as ugly plain editable text.
 
 For Wagtail pages, specify this widget directly in the panels definition:
 
@@ -20,8 +20,8 @@ For Wagtail pages, specify this widget directly in the panels definition:
 For standard models:
 
 * define a custom admin form class based on the admin helper class
-  ``wagtail_extensions.forms._PrettyJSONFieldForm``
-* set your model's ``base_form_class`` attribute to point this form class.
+  `wagtail_extensions.forms._PrettyJSONFieldForm`
+* set your model's `base_form_class` attribute to point this form class.
 
 The UI widget is from http://kevinmickey.github.io/django-prettyjson/
 
@@ -29,14 +29,14 @@ Original ticket: https://github.com/ixc/agsa/issues/187
 
 ### Filter by nested data
 
-Make data fields nested in ``JSONField`` available for filtering in the admin
+Make data fields nested in `JSONField` available for filtering in the admin
 by distinct values using the
-``wagtail_extensions.admin.jsonfield_simplelistfilter_builder`` function in
-the admin's ``list_filter`` attribute:
+`wagtail_extensions.admin.jsonfield_simplelistfilter_builder` function in
+the admin's `list_filter` attribute:
 
     list_filter = (
         jsonfield_simplelistfilter_builder(
-            'data__background__nationality',  # Path to data in JSONField
+            'data__background__nationality',  # Path in 'data' JSONField
             'nationality',  # GET parameter name to use
             title='nationality'),  # Optional human-friendly title for filter
     )
@@ -46,7 +46,6 @@ the admin's ``list_filter`` attribute:
 TODOs:
 
 * Show nested data in listing columns
-* Order by nested data
 * Search by nested data
 * Expose nested JSONField data on admin forms
 
@@ -71,22 +70,22 @@ to the model admins.
 To provide multiple admins:
 
 * for each admin view you want, define a custom URL helper class based on
-  ``wagtail_extensions.admin_helpers.BasePageAdminURLHelper`` for a Wagtail
-  page, or ``wagtail_extensions.admin_helpers.BaseAdminURLHelper`` for a
+  `wagtail_extensions.admin_helpers.BasePageAdminURLHelper` for a Wagtail
+  page, or `wagtail_extensions.admin_helpers.BaseAdminURLHelper` for a
   standard model
 * optionally override the default URL-building attributes on your URL helper
   classes to customise the URL that will be provided in the admin, for example
   an admin view focussed on Artwork documents might have:
       url_prefix = 'artwork'
-* define a separate Wagtail ``ModelAdmin`` class for each admin view you want.
+* define a separate Wagtail `ModelAdmin` class for each admin view you want.
   For each of these:
-  * set ``url_helper_class`` to the corresponding URL helper class
-  * set ``menu_label`` to identify the view, e.g. "Artwork documents"
+  * set `url_helper_class` to the corresponding URL helper class
+  * set `menu_label` to identify the view, e.g. "Artwork documents"
   * configure the admin as appropriate for the view, e.g. with specific
-    ``list_display``, ``list_filter``, ``get_queryset(self, request)`` and
+    `list_display`, `list_filter`, `get_queryset(self, request)` and
     field methods.
 * register the multiple admins with Wagtail as usual via
-  ``modeladmin_register``
+  `modeladmin_register`
 
 Original ticket: https://github.com/ixc/agsa/issues/190
 
