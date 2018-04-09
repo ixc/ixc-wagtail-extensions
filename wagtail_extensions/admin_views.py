@@ -10,6 +10,22 @@ from wagtail.contrib.modeladmin.views import IndexView
 from .jsonfield_utils import jsonfield_path_split
 
 
+class _ConsistentTitlesIndexViewMixin(IndexView):
+    """
+    Show `ModelAdmin.menu_label` as the title of Admin listing views instead of
+    the default verbose model name, so the admin has consistent titles in the
+    menu and atop the listing page.
+    """
+
+    def get_page_title(self):
+        """
+        Use `menu_label` as defined in model admin class for page title of
+        index listing page if it's available.
+        """
+        return getattr(self.model_admin, 'menu_label', None) or \
+            super(_ConsistentTitlesIndexViewMixin, self).get_page_title()
+
+
 class _SearchInJSONFieldsIndexViewMixin(IndexView):
     """
     Search inside `JSONField` paths in addition to standard Django model fields

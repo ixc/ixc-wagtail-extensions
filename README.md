@@ -69,7 +69,6 @@ admin, so set this to at least some minimal value.
 
 Original ticket: https://github.com/ixc/agsa/issues/188
 
-
 ### Display and order by nested data
 
 Django does not (yet) support using paths to data nested in `JSONField`s for
@@ -88,7 +87,7 @@ In Wagtail you can also enable these methods for ordering by setting the
 `admin_order_field` on the attribute to a field path. Paths to nested data are
 not supported by the normal paths, but you can add this support by setting a
 custom `IndexView` class for your admin based on
-`_OrderByJSONFieldsIndexViewMixin`.
+`wagtail_extensions.admin_views._OrderByJSONFieldsIndexViewMixin`.
 
 Here is an extensions of the example above to permit ordering by nested fields.
 Note the custom index view class, and setting an attribute on the admin method
@@ -109,14 +108,32 @@ NOTE: There is not yet support for coercing `JSONField` content to different
 data types to give the expected ordering, so results will currently be entirely
 up to the DB's chosen ordering approach.
 
+### Expose nested JSONField data in Admin create/edit form
 
-TODOs:
 
-* Expose nested JSONField data on admin forms
 
 
 Other Admin extensions
 ----------------------
+
+### Show consistent title in menu and top of index listing
+
+To show the title set in Wagtail's optional `ModelAdmin.menu_label` as the
+title of admin listing views instead of the default verbose model name, so the
+admin has consistent titles in the menu and atop the listing page, set a custom
+`IndexView` class for your admin based on
+`wagtail_extensions.admin_views._ConsistentTitlesIndexViewMixin`:
+
+    class MyIndexView(_ConsistentTitlesIndexViewMixin, IndexView):
+        pass
+
+    class MyAdmin(ModelAdmin):
+        index_view_class = MyIndexView
+        menu_label = 'Title to be made consistent'
+
+This customisation will mainly be useful if you have multiple admin views of
+a single model, but might be nice to have in other places where we want
+consistent naming through the admin UI.
 
 ### Multiple admin views of a single model
 
