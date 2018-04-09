@@ -110,7 +110,47 @@ up to the DB's chosen ordering approach.
 
 ### Expose nested JSONField data in Admin create/edit form
 
+To make it easier to update or override data nested within `JSONField` fields
+on a model, you can expose arbitrarily nested data as top-level form fields
+in the admin by creating a custom form based on
+`wagtail_extensions.forms._ExposeJSONFieldDataAdminModelFormMixin` with extra
+form fields and an attribute `formfield_to_jsonfield_path` to map the relevant
+paths within the `JSONField`.
 
+For example, given 'data' is a `JSONField` from which you want to expose the
+*slug* and *name > full* nested data:
+
+    class MyForm(_ExposeJSONFieldDataAdminModelFormMixin):
+        # Extra form fields added to model fields
+        slug = forms.CharField()
+        name_full = forms.CharField()
+
+        # Mapping from form field name to path in JSONField
+        formfield_to_jsonfield_path = {
+            'slug': 'data__slug',
+            'name_full': 'data__name__full',
+        }
+
+
+    class MyModel(models.Model):
+        # Usual model definitions here...
+
+        # Custom model admin form to expose nested `JSONField` data
+        base_form_class = MyForm
+
+        panels = [
+            # Exposed `JSONField` data as made available by
+            # `_ExposeJSONFieldDataAdminModelFormMixin`
+            FieldPanel('slug'),
+            FieldPanel('name_full'),
+
+            # Continued... rest of standard model fields go here
+        ]
+
+Note: Because custom Admin forms are defined directly on the Model class in
+Wagtail -- absurd as that is -- it is not currently possible to expose
+different fields if you have multiple different admin views on the same model.
+This is a general problem for panels/fields defined on models.
 
 
 Other Admin extensions
