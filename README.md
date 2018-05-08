@@ -8,7 +8,7 @@ Using JSONFields in Admin
 ### Pretty rendering of JSONField
 
 Render JSON data from a `JSONField` model fields as a nice interactive widget
-in the Wagtail admin using `wagtail_extensions.widgets.JSONFieldWidget`.
+in the Wagtail admin using `ixc_wagtail_extensions.widgets.JSONFieldWidget`.
 Without this, `JSONField` fields are displayed as ugly plain editable text.
 
 For Wagtail pages, specify this widget directly in the panels definition:
@@ -20,7 +20,7 @@ For Wagtail pages, specify this widget directly in the panels definition:
 For standard models:
 
 * define a custom admin form class based on the admin helper class
-  `wagtail_extensions.forms._PrettyJSONFieldForm`
+  `ixc_wagtail_extensions.forms._PrettyJSONFieldForm`
 * set your model's `base_form_class` attribute to point this form class.
 
 The UI widget is from http://kevinmickey.github.io/django-prettyjson/
@@ -31,7 +31,7 @@ Original ticket: https://github.com/ixc/agsa/issues/187
 
 Make data fields nested in `JSONField`s available for filtering in the admin
 by distinct values using the
-`wagtail_extensions.admin.jsonfield_simplelistfilter_builder` function in
+`ixc_wagtail_extensions.admin.jsonfield_simplelistfilter_builder` function in
 the admin's `list_filter` attribute:
 
     list_filter = (
@@ -46,7 +46,7 @@ the admin's `list_filter` attribute:
 Make data fields nested in `JSONField`s available for searching in the admin,
 in addition to standard Django model fields, by setting a custom `IndexView`
 class for your admin based on
-`wagtail_extensions.admin_views._SearchInJSONFieldsIndexViewMixin` and
+`ixc_wagtail_extensions.admin_views._SearchInJSONFieldsIndexViewMixin` and
 specifying search paths in a `json_search_fields` attribute on
 Wagtail's `ModelAdmin`.
 
@@ -87,7 +87,7 @@ In Wagtail you can also enable these methods for ordering by setting the
 `admin_order_field` on the attribute to a field path. Paths to nested data are
 not supported by the normal paths, but you can add this support by setting a
 custom `IndexView` class for your admin based on
-`wagtail_extensions.admin_views._OrderByJSONFieldsIndexViewMixin`.
+`ixc_wagtail_extensions.admin_views._OrderByJSONFieldsIndexViewMixin`.
 
 Here is an extensions of the example above to permit ordering by nested fields.
 Note the custom index view class, and setting an attribute on the admin method
@@ -113,7 +113,7 @@ up to the DB's chosen ordering approach.
 To make it easier to update or override data nested within `JSONField` fields
 on a model, you can expose arbitrarily nested data as top-level form fields
 in the admin by creating a custom form based on
-`wagtail_extensions.forms._ExposeJSONFieldDataAdminModelFormMixin` with extra
+`ixc_wagtail_extensions.forms._ExposeJSONFieldDataAdminModelFormMixin` with extra
 form fields and an attribute `formfield_to_jsonfield_path` to map the relevant
 paths within the `JSONField`.
 
@@ -162,7 +162,7 @@ To show the title set in Wagtail's optional `ModelAdmin.menu_label` as the
 title of admin listing views instead of the default verbose model name, so the
 admin has consistent titles in the menu and atop the listing page, set a custom
 `IndexView` class for your admin based on
-`wagtail_extensions.admin_views._ConsistentTitlesIndexViewMixin`:
+`ixc_wagtail_extensions.admin_views._ConsistentTitlesIndexViewMixin`:
 
     class MyIndexView(_ConsistentTitlesIndexViewMixin, IndexView):
         pass
@@ -192,8 +192,8 @@ to the model admins.
 To provide multiple admins:
 
 * for each admin view you want, define a custom URL helper class based on
-  `wagtail_extensions.admin_helpers.BasePageAdminURLHelper` for a Wagtail
-  page, or `wagtail_extensions.admin_helpers.BaseAdminURLHelper` for a
+  `ixc_wagtail_extensions.admin_helpers.BasePageAdminURLHelper` for a Wagtail
+  page, or `ixc_wagtail_extensions.admin_helpers.BaseAdminURLHelper` for a
   standard model
 * optionally override the default URL-building attributes on your URL helper
   classes to customise the URL that will be provided in the admin, for example

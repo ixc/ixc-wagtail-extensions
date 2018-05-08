@@ -4,11 +4,11 @@ with open('README.md') as f:
     long_description = f.read()
 
 setuptools.setup(
-    name='wagtail-extensions',
+    name='ixc-wagtail-extensions',
     use_scm_version={'version_scheme': 'post-release'},
     author='Interaction Consortium',
     author_email='studio@interaction.net.au',
-    url='https://github.com/ixc/wagtail-extensions',
+    url='https://github.com/ixc/ixc-wagtail-extensions',
     description='Extensions to help us build Wagtail sites',
     long_description=long_description,
     long_description_content_type="text/markdown",
