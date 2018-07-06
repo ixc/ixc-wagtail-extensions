@@ -18,7 +18,7 @@ setuptools.setup(
     include_package_data=True,
     install_requires=[
         'Django',
-        'Wagtail',
+        'Wagtail>=2',
         'django-prettyjson',  # Pretty widget UI for `JSONField`s
     ],
     extras_require={},

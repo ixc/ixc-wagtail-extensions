@@ -1,6 +1,6 @@
 from django.contrib.postgres.forms.jsonb import JSONField
 
-from wagtail.wagtailadmin.forms import WagtailAdminModelForm
+from wagtail.admin.forms import WagtailAdminModelForm
 
 from .widgets import JSONFieldWidget
 from .jsonfield_utils import jsonfield_path_split
