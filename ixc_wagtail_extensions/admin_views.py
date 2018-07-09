@@ -1,4 +1,5 @@
 import operator
+import functools
 
 from django.contrib.postgres.fields.jsonb import JSONField
 from django.core.exceptions import FieldDoesNotExist
@@ -80,7 +81,7 @@ class _SearchInJSONFieldsIndexViewMixin(IndexView):
                 or_queries = [models.Q(**{orm_lookup: bit})
                               for orm_lookup in orm_lookups]
                 json_search_qs = json_search_qs.filter(
-                    reduce(operator.or_, or_queries))
+                    functools.reduce(operator.or_, or_queries))
             search_qs |= json_search_qs
 
         return search_qs, use_distinct
