@@ -4,12 +4,20 @@ from django.contrib import admin as django_admin
 from .jsonfield_utils import jsonfield_path_split
 
 
-def jsonfield_simplelistfilter_builder(field_path, parameter_name, title=None):
+def jsonfield_simplelistfilter_builder(
+    field_path, parameter_name, title=None, value_type=None,
+):
     """
     Function to build and return a standard Django `SimpleListFilter` class
     specific to a given field path nested within a `JSONField` to make it
     available for filtering by distinct values in the admin.
     """
+    supported_value_types = (None, bool)
+    if value_type not in supported_value_types:
+        raise ValueError(
+            "The 'value_type' %r is not supported, only %s"
+            % (value_type, supported_value_types))
+
     class _Filter(django_admin.SimpleListFilter):
 
         def lookups(self, request, model_admin):
@@ -37,10 +45,14 @@ def jsonfield_simplelistfilter_builder(field_path, parameter_name, title=None):
 
         def queryset(self, request, queryset):
             """ Filter by a selected known value for a field path """
-            if self.value():
-                kwargs = {field_path: self.value()}
-                return queryset.filter(**kwargs)
-            return queryset
+            # Value is always a string at this point
+            value = self.value()
+            if not value:
+                return queryset
+            # Convert value to appropriate type
+            if value_type is bool:
+                value = value.lower() == 'true'
+            return queryset.filter(**{field_path: value})
 
     _Filter.parameter_name = parameter_name
     _Filter.title = title or parameter_name
